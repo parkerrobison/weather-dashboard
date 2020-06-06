@@ -46,7 +46,6 @@ var getCityName = function(){
         
         
     })
-//city.name
 }
 
 // var formSubmitHandler = function() {
