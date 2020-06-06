@@ -3,9 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"></link>
     <title>Weather Dashboard</title>
 </head>
 <body>
-    
+    <header>
+        <h1 class="text-center bg-dark text-light">Weather Dashboard</h1>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <h2 class="text-left">Search for a City:</h2>
+                    <form id="name-form">
+                        <input type="text" id="city-name" name="cityname">
+                        <button class="btn btn-primary" type="submit" id="search-button">Go</button> 
+                    </form>
+                    <div class="list-unstyled">
+                        <li>Houston</li>
+                        <li>Salt Lake</li>
+                        <li>London</li>
+                    </div>
+                </div>
+
+                <div class="col-8">
+                    <div class="card" id="weather-container">
+                        <div id="city-title"></div>
+                        <div id="weather-temp"></div>
+                        <div id="weather-humidity"></div>
+                        <div id="wind-speed"></div>
+                        <div id="uv"></div>
+                    </div>
+                    <div>
+                        <h2>5-Day Forecast:</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
