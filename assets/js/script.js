@@ -3,7 +3,7 @@ var searchEl = document.querySelector("#search-button");
 var nameFormEl = document.querySelector("#name-form")
 var fdc = document.getElementById("fdcontainer");
 
-var days = document.querySelectorAll("days");
+var days = document.querySelectorAll("div.days");
 
 var day1El = document.getElementById("day1");
 var day2El = document.getElementById("day2");
@@ -75,10 +75,6 @@ var getCityName = function(){
         document.getElementById("fdcontainer").classList.remove("hide");
         document.getElementById("fivetitle").classList.remove("hide");
 
-        
-        
-        
-        var fdHumidity = "";
         var fdDateContainer = document.createElement("h4");
         var fdIconContainer = document.createElement("div");
         var fdTempContainer = document.createElement("p");
@@ -93,10 +89,13 @@ var getCityName = function(){
 
                 fdDateContainer.textContent = moment(fivedaydata.list[i].dt, "X").format("L");
                 fdIconContainer.innerHTML = "<img src='" + fdIcon + "'/>";
-                fdTempContainer.textContent =  "Temperature: " + fivedaydata.list[i].main.temp + " °F";
+                fdTempContainer.textContent =  "Temp: " + fivedaydata.list[i].main.temp + " °F";
                 fdHumidityContainer.textContent = "Wind speed: " + fivedaydata.list[i].wind.speed + " MPH";
 
-                day1El.appendChild(fdHumidityContainer);
+                days[0].appendChild(fdDateContainer);
+                days[0].appendChild(fdIconContainer);
+                days[0].appendChild(fdTempContainer);
+                days[0].appendChild(fdHumidityContainer);
             }
         }
     })
