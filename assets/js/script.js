@@ -3,6 +3,13 @@ var searchEl = document.querySelector("#search-button");
 var nameFormEl = document.querySelector("#name-form")
 var fdc = document.getElementById("fdcontainer");
 
+var days = document.querySelectorAll("days");
+
+var day1El = document.getElementById("day1");
+var day2El = document.getElementById("day2");
+var day3El = document.getElementById("day3");
+var day4El = document.getElementById("day4");
+var day5El = document.getElementById("day5");
 
 var getCityName = function(){
     event.preventDefault();
@@ -24,7 +31,6 @@ var getCityName = function(){
     .then(function(currentWeatherData) {
         console.log(currentWeatherData);
         
-        //displayWeatherData(currentWeatherData);
         var placeName = currentWeatherData.name;
         var placeLat = currentWeatherData.coord.lat;
         var placeLon = currentWeatherData.coord.lon;
@@ -61,7 +67,7 @@ var getCityName = function(){
     })
     
     fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl 
-    + "&appid=65fd11245a646ac22c447bd4432d911d").then(function(fivedaydata){
+    + "&units=imperial&appid=65fd11245a646ac22c447bd4432d911d").then(function(fivedaydata){
         return fivedaydata.json();
     }).then(function(fivedaydata){
         console.log(fivedaydata);
@@ -70,14 +76,36 @@ var getCityName = function(){
         document.getElementById("fivetitle").classList.remove("hide");
 
         
+        
+        
+        var fdHumidity = "";
+        var fdDateContainer = document.createElement("h4");
+        var fdIconContainer = document.createElement("div");
+        var fdTempContainer = document.createElement("p");
+        var fdHumidityContainer = document.createElement("p");
+
         for (let i = 0; i < fivedaydata.list.length; i++) {
-            if (fivedaydata.list[i].dt_txt.indexOf("00:00:00") > -1) {
+            if (fivedaydata.list[i].dt_txt.indexOf("12:00:00") > -1) {
                 console.log(fivedaydata.list[i]);
+
+                var fdIcon = "https://openweathermap.org/img/w/" + fivedaydata.list[i].weather[0].icon + ".png";
+                //var fdTemp = "Temperature: " + fivedaydata.list[i].main.temp + " °F";
+
+                fdDateContainer.textContent = moment(fivedaydata.list[i].dt, "X").format("L");
+                fdIconContainer.innerHTML = "<img src='" + fdIcon + "'/>";
+                fdTempContainer.textContent =  "Temperature: " + fivedaydata.list[i].main.temp + " °F";
+                fdHumidityContainer.textContent = "Wind speed: " + fivedaydata.list[i].wind.speed + " MPH";
+
+                day1El.appendChild(fdHumidityContainer);
             }
         }
     })
 
 }
+
+
+nameFormEl.addEventListener("submit", getCityName);
+
 
 // var formSubmitHandler = function() {
 //     event.preventDefault();
@@ -95,7 +123,7 @@ var getCityName = function(){
 //     
 // }
 
-nameFormEl.addEventListener("submit", getCityName);
+
 
 // display pulled data on page 
 // add a listener for button click
