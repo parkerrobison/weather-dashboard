@@ -1,7 +1,7 @@
 var searchEl = document.querySelector("#search-button");
 var cityInputEl = document.querySelector("#city-name");
 var nameFormEl = document.querySelector("#name-form")
-var searchHistory = [];
+var SHistory = [];
 
 var getCityName = function(){
     event.preventDefault();
@@ -35,7 +35,6 @@ var getCityName = function(){
 
         var weatherContainerEl = document.querySelector("#weather-container");
         weatherContainerEl.classList.remove("hide");
-        weatherContainerEl ="";
         var cityTitle = document.getElementById("city-title");
         cityTitle.innerHTML = "<h3>" + placeName + " (" + WDate + ") <img src='" +iconurl+ "'/></h3>";
 
@@ -98,14 +97,18 @@ var getCityName = function(){
             }
         }
     })
-//    saveSearch();
+   searchItem();
 }
 
-// var saveSearch = function () {
-//     searchHistory.push (cityInputEl.value);
-//     localStorage.setItem("city", JSON.stringify(searchHistory));
-//     cityInputEl.value = "";
-// }
+var searchItem = function () {
+    var hCard = $("<button>").addClass("list-group-item list-group-action-item text-left")
+    .attr("type", "button")
+    .text(cityInputEl.value);
+
+
+    $('#history-list').append(hCard)
+    cityInputEl.value = "";
+}
 
 
 
