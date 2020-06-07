@@ -102,34 +102,37 @@ var getCityName = function(){
 
 var searchItem = function () {
     var hCard = $("<button>").addClass("list-group-item list-group-action-item text-left")
-    .attr("type", "button")
+    .attr({"type": "button","id": "history-btn"})
     .text(cityInputEl.value);
 
 
     $('#history-list').append(hCard)
     cityInputEl.value = "";
+
+    $(".list-group-action-item").on("click", function(event) {
+        var hCity = event.target.innerHTML
+        if (hCity) {
+            cityInputEl.value = hCity;
+            getCityName();
+        }
+    });
 }
 
+var formSubmitHandler = function() {
+    event.preventDefault();
+    var city = cityInputEl.value.trim();
+
+    if (city) {
+        getCityName()
+    } else {
+        alert("Please enter a city's name")
+    }
+}
+
+nameFormEl.addEventListener("submit", formSubmitHandler);
 
 
-nameFormEl.addEventListener("submit", getCityName);
 
-
-// var formSubmitHandler = function() {
-//     event.preventDefault();
-//     var city = cityInput.value.trim();
-
-//     if (city) {
-//         getCityName()
-//         cityInput.value ="";
-//     } else {
-//         alert("Please enter a city's name")
-//     }
-// }
-
-// var displayWeatherData = function() {
-//     
-// }
 
 
 
