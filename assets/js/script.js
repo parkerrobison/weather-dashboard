@@ -1,18 +1,9 @@
 var searchEl = document.querySelector("#search-button");
 
 var nameFormEl = document.querySelector("#name-form")
-var fdc = document.getElementById("fdcontainer");
-
-var days = document.querySelectorAll("div.days");
-
-var day1El = document.getElementById("day1");
-var day2El = document.getElementById("day2");
-var day3El = document.getElementById("day3");
-var day4El = document.getElementById("day4");
-var day5El = document.getElementById("day5");
-
 var getCityName = function(){
     event.preventDefault();
+    
     var cityInputEl = document.querySelector("#city-name").value.trim();
 
     var apiUrl = "https://api.openweathermap.org/data/2.5/weather?APPID=65fd11245a646ac22c447bd4432d911d&units=imperial&q=";
@@ -37,10 +28,11 @@ var getCityName = function(){
         var placeTemp = "Temperature: " + currentWeatherData.main.temp + " °F";
         var placeHumidity = "Humidity: " + currentWeatherData.main.humidity + "%";
         var placeWs = "Wind speed: " + currentWeatherData.wind.speed + " MPH";
-        var WDate= moment(currentWeatherData.dt, "X").format("L");
+        var WDate= moment(currentWeatherData.dt, "X").format("l");
         var iconurl = "http://openweathermap.org/img/w/" + currentWeatherData.weather[0].icon + ".png";
 
-        var weatherContainerEl = document.querySelector("#weather-selector");
+        var weatherContainerEl = document.querySelector("#weather-container");
+        weatherContainerEl.classList.remove("hide");
         weatherContainerEl ="";
         var cityTitle = document.getElementById("city-title");
         cityTitle.innerHTML = "<h3>" + placeName + " (" + WDate + ") <img src='" +iconurl+ "'/></h3>";
@@ -62,7 +54,18 @@ var getCityName = function(){
         .then(function(UVdata){
             console.log(UVdata);
             var UV = document.getElementById("uv");
-        UV.innerHTML = "<p> UV Index: " + UVdata.value + "</p>";
+        UV.innerHTML = "<p> UV Index: <span class='UVAlert badge'>" + UVdata.value + "</span></p>";
+
+        if (UVdata.value > 7) {
+            
+            $(".UVAlert").addClass("badge-danger");
+        }else if (UVdata.value < 8 && UVdata.value > 2) {
+            
+            $(".UVAlert").addClass("badge-warning");
+        } else {
+            
+            $(".UVAlert").addClass("badge-success");
+        }
         })
     })
     
@@ -71,35 +74,29 @@ var getCityName = function(){
         return fivedaydata.json();
     }).then(function(fivedaydata){
         console.log(fivedaydata);
-
-        document.getElementById("fdcontainer").classList.remove("hide");
+        $(".forecast").empty();
         document.getElementById("fivetitle").classList.remove("hide");
-
-        var fdDateContainer = document.createElement("h4");
-        var fdIconContainer = document.createElement("div");
-        var fdTempContainer = document.createElement("p");
-        var fdHumidityContainer = document.createElement("p");
 
         for (let i = 0; i < fivedaydata.list.length; i++) {
             if (fivedaydata.list[i].dt_txt.indexOf("12:00:00") > -1) {
+                
+                var col = $("<div>").addClass("col-md-2");
+                var card = $("<div>").addClass("card bg-primary text-white");
+                var cardBody = $("<div>").addClass("card-body");
+               
                 console.log(fivedaydata.list[i]);
+                var title = $("<div>").addClass("card-title").text(moment(fivedaydata.list[i].dt, "X").format("l"));
+                var icon = $("<img>").attr("src", "https://openweathermap.org/img/w/" + fivedaydata.list[i].weather[0].icon + ".png");
+                var tempP = $("<p>").addClass("card-text").text("Temp: " + fivedaydata.list[i].main.temp + " °F")
+                var windP = $("<p>").addClass("card-text").text("Humidity: " + fivedaydata.list[i].main.humidity + "%")
+                
 
-                var fdIcon = "https://openweathermap.org/img/w/" + fivedaydata.list[i].weather[0].icon + ".png";
-                //var fdTemp = "Temperature: " + fivedaydata.list[i].main.temp + " °F";
-
-                fdDateContainer.textContent = moment(fivedaydata.list[i].dt, "X").format("L");
-                fdIconContainer.innerHTML = "<img src='" + fdIcon + "'/>";
-                fdTempContainer.textContent =  "Temp: " + fivedaydata.list[i].main.temp + " °F";
-                fdHumidityContainer.textContent = "Wind speed: " + fivedaydata.list[i].wind.speed + " MPH";
-
-                days[0].appendChild(fdDateContainer);
-                days[0].appendChild(fdIconContainer);
-                days[0].appendChild(fdTempContainer);
-                days[0].appendChild(fdHumidityContainer);
+                col.append(card.append(cardBody.append(title, icon, tempP, windP)));
+                $(".forecast").append(col);
             }
         }
     })
-
+    
 }
 
 

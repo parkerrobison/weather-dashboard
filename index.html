@@ -28,8 +28,8 @@
                     </div>
                 </div>
 
-                <div class="col-9">
-                    <div class="card" id="weather-container">
+                <div class="col-9" >
+                    <div class="card hide" id="weather-container">
                         <div id="city-title"></div>
                         <div id="weather-temp"></div>
                         <div id="weather-humidity"></div>
@@ -37,48 +37,14 @@
                         <div id="uv"></div>
                     </div>
                     <h2 class="hide" id="fivetitle">5-Day Forecast:</h2>
-                    <div class="row hide" id="fdcontainer">
-                        <div class="col-sm-2">
-                            <div class="card justify-space-between">
-                                <div class="card-body days" id="day1">
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="card justify-space-between">
-                                <div class="card-body days" id="day2">
-   
-                                </div>
-                            </div>
-                        </div><div class="col-sm-2">
-                            <div class="card justify-space-between">
-                                <div class="card-body days" id="day3">
-   
-                                </div>
-                            </div>
-                        </div><div class="col-sm-2">
-                            <div class="card justify-space-between">
-                                <div class="card-body days" id="day4">
-   
-                                </div>
-                            </div>
-                        </div><div class="col-sm-2">
-                            <div class="card justify-space-between">
-                                <div class="card-body days" id="day5">
-   
-                                </div>
-                            </div>
-                        </div>
-
-                            </div>
-                        </div>
+                    <div class="forecast row">
                     </div>
                 </div>
             </div>
         </div>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
