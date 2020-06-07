@@ -1,14 +1,16 @@
 var searchEl = document.querySelector("#search-button");
-
+var cityInputEl = document.querySelector("#city-name");
 var nameFormEl = document.querySelector("#name-form")
+var searchHistory = [];
+
 var getCityName = function(){
     event.preventDefault();
     
-    var cityInputEl = document.querySelector("#city-name").value.trim();
+    var cityInput = cityInputEl.value.trim();
 
     var apiUrl = "https://api.openweathermap.org/data/2.5/weather?APPID=65fd11245a646ac22c447bd4432d911d&units=imperial&q=";
 
-    fetch(apiUrl + cityInputEl)
+    fetch(apiUrl + cityInput)
     .then(function(currentWeatherData) {
         return currentWeatherData.json();
         // if(currentWeatherData.ok) {
@@ -69,7 +71,7 @@ var getCityName = function(){
         })
     })
     
-    fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityInputEl 
+    fetch("https://api.openweathermap.org/data/2.5/forecast?q=" + cityInput 
     + "&units=imperial&appid=65fd11245a646ac22c447bd4432d911d").then(function(fivedaydata){
         return fivedaydata.json();
     }).then(function(fivedaydata){
@@ -80,15 +82,15 @@ var getCityName = function(){
         for (let i = 0; i < fivedaydata.list.length; i++) {
             if (fivedaydata.list[i].dt_txt.indexOf("12:00:00") > -1) {
                 
-                var col = $("<div>").addClass("col-md-2");
+                var col = $("<div>").addClass("col");
                 var card = $("<div>").addClass("card bg-primary text-white");
                 var cardBody = $("<div>").addClass("card-body");
                
                 console.log(fivedaydata.list[i]);
                 var title = $("<div>").addClass("card-title").text(moment(fivedaydata.list[i].dt, "X").format("l"));
                 var icon = $("<img>").attr("src", "https://openweathermap.org/img/w/" + fivedaydata.list[i].weather[0].icon + ".png");
-                var tempP = $("<p>").addClass("card-text").text("Temp: " + fivedaydata.list[i].main.temp + " °F")
-                var windP = $("<p>").addClass("card-text").text("Humidity: " + fivedaydata.list[i].main.humidity + "%")
+                var tempP = $("<p>").addClass("card-text fd-text").text("Temp: " + fivedaydata.list[i].main.temp + " °F")
+                var windP = $("<p>").addClass("card-text fd-text").text("Humidity: " + fivedaydata.list[i].main.humidity + "%")
                 
 
                 col.append(card.append(cardBody.append(title, icon, tempP, windP)));
@@ -96,8 +98,15 @@ var getCityName = function(){
             }
         }
     })
-    
+//    saveSearch();
 }
+
+// var saveSearch = function () {
+//     searchHistory.push (cityInputEl.value);
+//     localStorage.setItem("city", JSON.stringify(searchHistory));
+//     cityInputEl.value = "";
+// }
+
 
 
 nameFormEl.addEventListener("submit", getCityName);
@@ -105,11 +114,11 @@ nameFormEl.addEventListener("submit", getCityName);
 
 // var formSubmitHandler = function() {
 //     event.preventDefault();
-//     var city = cityInputEl.value.trim();
+//     var city = cityInput.value.trim();
 
 //     if (city) {
 //         getCityName()
-//         cityInputEl.value ="";
+//         cityInput.value ="";
 //     } else {
 //         alert("Please enter a city's name")
 //     }
