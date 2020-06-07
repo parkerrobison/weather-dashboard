@@ -3,7 +3,7 @@ var cityInputEl = document.querySelector("#city-name");
 var nameFormEl = document.querySelector("#name-form")
 var SHistory = [];
 
-var getCityName = function(){
+var printWeather = function(){
     event.preventDefault();
     
     var cityInput = cityInputEl.value.trim();
@@ -97,25 +97,34 @@ var getCityName = function(){
             }
         }
     })
-   searchItem();
 }
 
-var searchItem = function () {
+var recordSearch = function () {
     var hCard = $("<button>").addClass("list-group-item list-group-action-item text-left")
     .attr({"type": "button","id": "history-btn"})
     .text(cityInputEl.value);
 
 
     $('#history-list').append(hCard)
+    
+    printWeather();
     cityInputEl.value = "";
+    loadHistory();
+}
 
-    $(".list-group-action-item").on("click", function(event) {
-        var hCity = event.target.innerHTML
-        if (hCity) {
-            cityInputEl.value = hCity;
-            getCityName();
-        }
-    });
+var loadHistory = function () {
+    var historyBtns = document.querySelectorAll(".list-group-action-item");
+    historyBtns.forEach(function(historyBtn) {
+        historyBtn.addEventListener("click",function(event) {
+            var hCity = event.target.innerText
+            console.log(event.target);
+            if (hCity) {
+                cityInputEl.value = hCity;
+                printWeather();
+            }
+        })
+        
+    })
 }
 
 var formSubmitHandler = function() {
@@ -123,7 +132,7 @@ var formSubmitHandler = function() {
     var city = cityInputEl.value.trim();
 
     if (city) {
-        getCityName()
+        recordSearch()
     } else {
         alert("Please enter a city's name")
     }
