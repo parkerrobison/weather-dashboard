@@ -1,35 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"></link>
-    <link rel="stylesheet" href="./assets/css/style.css"></link>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    </link>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    </link>
     <title>Weather Dashboard</title>
 </head>
+
 <body>
     <header>
-        <h1 class="text-center bg-dark text-light">Weather Dashboard</h1>
+        <h1 class="text-center bg-dark text-light p-4">Weather Dashboard</h1>
     </header>
 
     <main>
         <div class="container">
             <div class="row">
-                <div class="col-3">
+                <div class="col-md-4 col-xl-3">
                     <h2 class="text-left">Search for a City:</h2>
                     <form id="name-form">
                         <input type="text" id="city-name" name="cityname">
-                        <button class="btn btn-primary" type="submit" id="search-button">Go</button> 
+                        <button class="btn btn-primary" type="submit" id="search-button">Go</button>
                     </form>
-                    <div class="list-unstyled">
-                        <li>Houston</li>
-                        <li>Salt Lake</li>
-                        <li>London</li>
+                    <div class="list-group" id="history-list">
                     </div>
                 </div>
 
                 <div class="col-9">
-                    <div class="card" id="weather-container">
+                    <div class="card hide my-3" id="weather-container">
                         <div id="city-title"></div>
                         <div id="weather-temp"></div>
                         <div id="weather-humidity"></div>
@@ -37,48 +38,15 @@
                         <div id="uv"></div>
                     </div>
                     <h2 class="hide" id="fivetitle">5-Day Forecast:</h2>
-                    <div class="row hide" id="fdcontainer">
-                        <div class="col-sm-2">
-                            <div class="card justify-space-between">
-                                <div class="card-body days" id="day1">
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="card justify-space-between">
-                                <div class="card-body days" id="day2">
-   
-                                </div>
-                            </div>
-                        </div><div class="col-sm-2">
-                            <div class="card justify-space-between">
-                                <div class="card-body days" id="day3">
-   
-                                </div>
-                            </div>
-                        </div><div class="col-sm-2">
-                            <div class="card justify-space-between">
-                                <div class="card-body days" id="day4">
-   
-                                </div>
-                            </div>
-                        </div><div class="col-sm-2">
-                            <div class="card justify-space-between">
-                                <div class="card-body days" id="day5">
-   
-                                </div>
-                            </div>
-                        </div>
-
-                            </div>
-                        </div>
+                    <div class="forecast row">
                     </div>
                 </div>
             </div>
         </div>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
+
 </html>

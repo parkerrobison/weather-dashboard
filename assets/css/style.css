@@ -1,3 +1,7 @@
 .hide {
     display: none
 }
+
+.fd-text {
+    font-size: 12px;
+}
