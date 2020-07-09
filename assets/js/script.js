@@ -1,6 +1,18 @@
 var cityInputEl = document.querySelector("#city-name");
 var nameFormEl = document.querySelector("#name-form");
 
+// function that gets all data from api
+// on formsubmit call the above function with the value in input.
+// load history should call the first function with the button text
+
+
+
+// make it so multiple same search answers wont populate in the recordSearch list
+// refactor
+// include set localstorage in record search
+// include get localstorage in load history
+// limit history to 8 items.
+
 // This function displays all of the weather data on the right side of the page.
 var printWeather = function () {
     event.preventDefault();
@@ -18,6 +30,10 @@ var printWeather = function () {
             }
         })
         .then(function (currentWeatherData) {
+            if (!currentWeatherData) {
+                alert("No weather data available.")
+            }
+            recordSearch();
             // variables for display data
             var placeName = currentWeatherData.name;
             var placeLat = currentWeatherData.coord.lat;
@@ -91,12 +107,13 @@ var printWeather = function () {
 
 // records the entries into the form input as listed buttons.
 var recordSearch = function () {
+    console.log("record")
     var hCard = $("<button>").addClass("list-group-item list-group-action-item text-left")
         .attr({ "type": "button", "id": "history-btn" })
         .text(cityInputEl.value);
     $('#history-list').append(hCard);
 
-    printWeather();
+    
     // clears the input
     cityInputEl.value = "";
     loadHistory();
@@ -104,6 +121,7 @@ var recordSearch = function () {
 
 // loads the data from a selected button from the history list. 
 var loadHistory = function () {
+    console.log("load history")
     var historyBtns = document.querySelectorAll(".list-group-action-item");
     historyBtns.forEach(function (historyBtn) {
         historyBtn.addEventListener("click", function (event) {
@@ -122,10 +140,11 @@ var formSubmitHandler = function () {
     event.preventDefault();
     var city = cityInputEl.value.trim();
     if (city) {
-        recordSearch()
+        printWeather();
     } else {
         alert("Please enter a city's name")
     }
 }
 
 nameFormEl.addEventListener("submit", formSubmitHandler);
+
