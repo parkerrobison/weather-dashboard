@@ -1,14 +1,13 @@
 var cityInputEl = document.querySelector("#city-name");
 var nameFormEl = document.querySelector("#name-form");
+var citySearchArray = [];
 
 // function that gets all data from api
 // on formsubmit call the above function with the value in input.
 // load history should call the first function with the button text
 
-// make it so multiple same search answers wont populate in the recordSearch list
-// refactor
-// include set localstorage in record search
-// include get localstorage in load history
+
+
 // limit history to 8 items.
 var loadApiData = function (cityInput) {
 
@@ -104,13 +103,36 @@ var loadApiData = function (cityInput) {
 
 // records the entries into the form input as listed buttons.
 var recordSearch = function () {
-    console.log("record")
+    let cityName = cityInputEl.value;
+    
+    if (citySearchArray.map(city => city.toLowerCase().trim()).includes(cityName.toLowerCase().trim())) {
+        return;
+    }
+    citySearchArray.push(cityName);
+    localStorage.setItem("cityName", JSON.stringify(citySearchArray));
+
+    createHistoryButton(cityName);
+    // clears the input
+    cityInputEl.value = "";
+}
+
+var loadHistory = function () {
+    var lsData = JSON.parse(localStorage.getItem("cityName")) || [];
+
+    lsData.forEach((cityName) => {
+        createHistoryButton(cityName)
+    })
+}
+
+
+const createHistoryButton = function (cityName) {
     var hCard = $("<button>").addClass("list-group-item list-group-action-item text-left")
         .attr({
             "type": "button",
             "id": "history-btn"
         })
-        .text(cityInputEl.value);
+        .text(cityName);
+
     $('#history-list').append(hCard);
     $(".list-group-action-item").last().click(function (event) {
         console.log("button clicked")
@@ -119,12 +141,7 @@ var recordSearch = function () {
             loadApiData(hCity)
         }
     })
-
-    // clears the input
-    cityInputEl.value = "";
-    // loadHistory();
 }
-
 
 // checks to see if the entry is blank. 
 var formSubmitHandler = function () {
@@ -133,11 +150,12 @@ var formSubmitHandler = function () {
     if (city) {
         // printWeather();
         loadApiData(city)
-        .then(recordSearch)
-        .catch(err => alert(err))
+            .then(recordSearch)
+            .catch(err => alert(err))
     } else {
         alert("Please enter a city's name")
     }
 }
 
+loadHistory();
 nameFormEl.addEventListener("submit", formSubmitHandler);
